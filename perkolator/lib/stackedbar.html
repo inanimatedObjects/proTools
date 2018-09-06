@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Stacked Bar</title>
+		<!-- <script type="text/javascript" src="../d3.js"></script> -->
+        <script src="http://d3js.org/d3.v4.min.js"></script>
+		<style type="text/css">
+		</style>
+	</head>
+	<body>
+		<script type="text/javascript">
+
+			//Width and height
+			var w = 500;
+			var h = 300;
+
+			//Original data
+			var dataset = [
+				{ cash: 5, equity: 10, perks: 22 },
+				{ cash: 4, equity: 12, perks: 28 },
+				{ cash: 2, equity: 19, perks: 32 },
+				// { cash: 7, equity: 23, perks: 35 },
+				// { cash: 23, equity: 17, perks: 43 }
+			];
+
+			//Set up stack method
+			var stack = d3.stack()
+						  .keys([ "cash", "equity", "perks" ])
+						  .order(d3.stackOrderDescending);
+
+			//Data, stacked
+			var series = stack(dataset);
+
+			//Set up scales
+			var yScale = d3.scaleBand()
+				.domain(d3.range(dataset.length))
+				.range([0, h])
+				.paddingInner(0.05);
+
+			var xScale = d3.scaleLinear()
+				.domain([0,
+					d3.max(dataset, function(d) {
+						return d.cash + d.equity + d.perks;
+					})
+				])
+				.range([0, w]);
+
+			var colors = d3.scaleOrdinal(d3.schemeCategory20);
+
+			//Create SVG element
+			var svg = d3.select("body")
+						.append("svg")
+						.attr("width", w)
+						.attr("height", h);
+
+			// Add a group for each row of data
+			var groups = svg.selectAll("g")
+				.data(series)
+				.enter()
+				.append("g")
+				.style("fill", function(d, i) {
+					return colors(i);
+				});
+
+			// Add a rect for each data value
+			var rects = groups.selectAll("rect")
+				.data(function(d) { return d; })
+				.enter()
+				.append("rect")
+				.attr("x", function(d, i) {
+                    return xScale(d[0]);
+				})
+				.attr("y", function(d, i) {
+                    return yScale(i);
+				})
+				.attr("width", function(d) {
+					return xScale(d[1]) - xScale(d[0]);
+				})
+				.attr("height", yScale.bandwidth());
+
+            var labels = groups.selectAll("g")
+                    .data(function(d) { return d; });
+
+            labels.enter()
+                .append('text')
+                    .attr("x", function(d, i) {
+                        return xScale(d[0] + 2);
+                    })
+                    .attr("y", function(d,i) {
+                        return yScale(i) + 24;
+                    })
+                .attr('translate', 'transform(0,0)')
+                .attr("font-family", "sans-serif")
+                .attr("font-size", "18px")
+                .attr("fill", "lightgrey")
+                .text(function(d){
+                    return d;
+                });
+
+
+
+		</script>
+	</body>
+</html>
