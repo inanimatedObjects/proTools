@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Perk-o-lator</title>
+    <style type="text/css">
+
+        /* css rules & html styles */
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            /* font-family: Helvetica, Arial, sans-serif; */
+            background-image: url("https://www.transparenttextures.com/patterns/black-linen.png");
+        }
+        #container {
+            width: 1000px;
+            margin: 25px auto 25px auto;
+            padding: 50px 50px 50px 50px;
+            /* background-color: #fffff0; */
+            background-color: #fff;
+            background-image: url("https://www.transparenttextures.com/patterns/cream-paper.png");
+            box-shadow: 0 0 20px #ccc;
+        }
+        h1 {
+            margin-bottom: 5px;
+            font-size: 44px;
+            font-weight: bold;
+            margin-left:-1%;
+        }
+        h2 {
+            margin-top: 30px;
+            margin-left: 20px;
+            font-size: 14px;
+        }
+        p {
+            margin-bottom: 25px;
+            font-size: 14px;
+            line-height: 18px;
+        }
+        #footer p {
+            margin-top: 50px;
+            margin-bottom: 0;
+            font-size: 10px;
+            line-height: 14px;
+            color: gray;
+        }
+        #footer p a {
+            color: gray;
+        }
+        .overview {
+            /* background-color: #f5fffa; */
+            /* background-color: #fff;
+            background-image: url("https://www.transparenttextures.com/patterns/sneaker-mesh-fabric.png"); */
+            background-color: #0f0d0e;
+            background-image: url("https://www.transparenttextures.com/patterns/simple-horizontal-light.png");
+            color:white;
+            stroke:none;
+            fill:white;
+        }
+
+        /* chart styles */
+        svg {
+            width: 100%;
+            height: 100%;
+            background-color: none;
+         }
+          .bar {
+            border: 1px solid;
+            margin: 0px 28px 0px 10px;
+            text-align: center;
+          }
+          .row {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            text-align: center;
+          }
+          .panel {
+            /* flex: 1; */
+            flex-basis: content;
+            border: 1px solid;
+            margin: 10px;
+            height: 150px;
+            width: 350px;
+          }
+          .handle {
+            fill: white;
+            stroke: black;
+            stroke-width: 1px;
+          }
+          .slideLine {
+            stroke: black;
+            stroke-width: 2px;
+            stroke-linecap: round;
+          }
+          circle {
+              fill: white;
+              stroke: blue;
+              stroke-width: 2px;
+          }
+          .summary {
+              margin: 10px;
+              border: 1px solid;
+          }
+          .summaryLabel {
+              margin: 0px;
+              border: 1px solid;
+              font-size: 50px;
+          }
+          .initialValue {
+            font-size: 30px;
+          }
+          .adjustedValue {
+              font-size: 30px;
+              fill:white;
+              stroke: #f5fffa;
+          }
+          .axis {
+            stroke-width: 3px
+          }
+          .accordion {
+            background-color: #eee;
+            color: #444;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            text-align: center;
+            border: none;
+            outline: none;
+            transition: 0.4s;
+          }
+          .submenu {
+            padding: 0 18px;
+            background-color: white;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+          }
+     </style>
+ </head>
+
+<body>
+
+<div id="container">
+    <h1>The Perk-o-lator</h1>
+
+    <p> Adjust offer letter terms accordingly to determine if a counter-offer is in order:<p>
+
+    <div id="chartContainer">
+        <h2>Proposed Comprehensive Compensation Package</h2>
+    </div>
+
+    <div class="overview bar"></div>
+
+    <!-- cash sliders row -->
+    <div class="cash row">
+      <div class="panel"></div>
+      <div class="panel"></div>
+      <div class="panel"></div>
+    </div>
+
+    <!-- equity sliders row -->
+    <div class="equity row">
+      <div class="panel"></div>
+      <div class="panel"></div>
+      <div class="panel"></div>
+    </div>
+
+    <!-- perks sliders row -->
+    <div class="perks row">
+      <div class="panel"></div>
+      <div class="panel"></div>
+      <div class="panel"></div>
+    </div>
+
+    <!-- time sliders row -->
+    <!-- <div class="time row">
+      <div class="panel"></div>
+      <div class="panel"></div>
+      <div class="panel"></div>
+    </div> -->
+
+    <div class="rangeSettings bar ">
+      Set ranges
+      <button class="accordion">Cash ranges</button>
+      <div class="submenu">
+        in cash ranges
+        <div class="range signBonus">
+          Max Signing Bonus: <input type="number" class="signBonus max"></input>
+          Min Signing Bonus: <input type="number" class="signBonus min"></input>
+        </div>
+        <div class="range baseSal">
+          Max Base Salary: <input type="number" class="baseSal max"></input>
+          Min Base Salary: <input type="number" class="baseSal min"></input>
+        </div>
+        <div class="range incentiveBonus">
+          Max Incentive Bonus: <input type="number" class="incentiveBonus max"></input>
+          Min Incentive Bonus: <input type="number" class="incentiveBonus min"></input>
+        </div>
+      </div>
+      <button class="accordion">Equity Ranges</button>
+      <div class="submenu">
+        in equity ranges
+        <div class="range signEq">
+          Max Signing Equity: <input type="number" class="signEq max"></input>
+          Min Signing Equity: <input type="number" class="signEq min"></input>
+        </div>
+        <div class="range earnedEq">
+          Max Earned Equity: <input type="number" class="earnedEq max"></input>
+          Min Earned Equity: <input type="number" class="earnedEq min"></input>
+        </div>
+        <div class="range incentiveEq">
+          Max Incentive Equity: <input type="number" class="incentiveEq max"></input>
+          Min Incentive Equity: <input type="number" class="incentiveEq min"></input>
+        </div>
+      </div>
+      <button class="accordion">Perks ranges</button>
+      <div class="submenu">
+        in perks ranges
+        <div class="range stipends">
+          Max Stipends: <input type="number" class="stipends max"></input>
+          Min Stipends: <input type="number" class="stipends min"></input>
+        </div>
+        <div class="range benefits">
+          Max Benefits: <input type="number" class="benefits max"></input>
+          Min Benefits: <input type="number" class="benefits min"></input>
+        </div>
+        <div class="range retirement">
+          Max Retirement Savings: <input type="number" class="retirement max"></input>
+          Min Retirement Savings: <input type="number" class="retirement min"></input>
+        </div>
+      </div>
+    </div>
+
+    <div id="footer">
+        <p><strong>Source:</strong> Initial offer values and negotiable ranges set by hiring manager prior to extending offer to job candidate. See the &rdquo;<a href="https://www.bea.gov/help/glossary/compensation-employees">Bureau of Economic Analysis (BEA)</a>&ldquo; for further guidance on Employee Compensation</p>
+    </div>
+</div>
+
+  <script src="http://d3js.org/d3.v4.min.js"></script>
+  <script src="./slider.js"></script>
+  <script src="./data.js"></script>
+  <script>
+
+  let data = [
+    { name: "Signing Bonus", min: 10, val: 18, max: 20 },
+    { name: "Base Salary", min: 80, val: 100, max: 120 },
+    { name: "Incentive Bonus", min: 5, val: 7, max: 15 },
+    { name: "Signing Equity", min: 16, val: 20, max: 31 },
+    { name: "Earned Equity", min: 5, val: 11, max: 14 },
+    { name: "Incentive Equity", min: 10, val: 30, max: 40 },
+    { name: "Stipends", min: 0, val: 5, max: 8 },
+    { name: "Benefits", min: 4, val: 16, max: 30 },
+    { name: "Retirement Savings", min: 0, val: 3, max: 6 }
+    // { name: "timeRate", min: 20, val: 40, max: 60 },
+    // { name: "timeAllocation", min: 0, val: 4, max: 10 },
+    // { name: "timeUtilization", min: 30, val: 32, max: 40 }
+  ];
+
+    const add = (a, b) => a + b
+
+    let offerArr = data.map( (d) => d.val ),
+        totalComp = offerArr.reduce(add),
+        newTotal = totalComp;
+
+      d3.selectAll(".panel").append("svg")
+        .each(function(d, i) {
+          // add ticks
+          let scale = d3.scaleLinear()
+            .domain([data[i].min, data[i].max])
+            .range([0, 280])
+
+          let axis = d3.axisBottom(scale)
+            .tickValues([data[i].min, data[i].max])
+
+          d3.select(this).append("g")
+            .attr("class", "axis")
+            .attr("transform", "translate(37, 100)")
+            .call(axis);
+          // append ids + sliders
+          d3.select(this)
+            .attr("id", i)
+            .call(slider(data));
+          // set initial cx values
+          d3.select(".handle" + i)
+            .attr("cx", (((data[i].val - data[i].min) / (data[i].max - data[i].min))) * 280)
+
+          // append panel names
+          d3.select(this).append("g")
+            .attr("class", "textContainer cont" + i)
+            .attr("transform", "translate(25, 20)")
+            .append("text")
+              .text(data[i].name)
+              .attr("class", "panelName name" + i)
+              .attr("text-anchor", "start")
+              .attr("alignment-baseline", "text-before-edge");
+          // display initial data values
+          d3.select(".cont" + i)
+            .append("text")
+              .text("$" + data[i].val + "k")
+              .attr("class", "dataVal val" + i)
+              .attr("x", 300)
+              .attr("text-anchor", "end")
+              .attr("alignment-baseline", "text-before-edge");
+        })
+
+
+    let summaryPanel = d3.select(".overview").append("svg")
+
+    summaryPanel.append("g")
+            .attr("class", "summary")
+        .append("text")
+        .attr("transform", "translate(300, 45)")
+            .attr("class", "summaryLabel")
+            .text("Prospective Offer Value")
+    // append initial offer
+    d3.select(".summary").append("text")
+        .attr("transform", "translate(37.5, 125)")
+        .attr("class", "initialValue")
+        .text("present offer: $" + totalComp + "k")
+    // append adjusted offer
+    d3.select(".summary").append("text")
+        .attr("transform", "translate(670, 125)")
+        .attr("class", "adjustedValue")
+        .text("counter-offer: $" + newTotal + "k")
+
+    // JS code to make accordions open/close
+    let acc = document.getElementsByClassName("accordion")
+    for (let i = 0; i < acc.length; i++) {
+      acc[i].addEventListener("click", function() {
+        this.classList.toggle("active")
+        let panel = this.nextElementSibling
+        if (panel.style.maxHeight) {
+            panel.style.maxHeight = null
+        } else {
+            panel.style.maxHeight = panel.scrollHeight + "px"
+        }
+      })
+    }
+
+
+  </script>
+</body>
