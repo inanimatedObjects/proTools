@@ -14,15 +14,6 @@
             /* font-family: Helvetica, Arial, sans-serif; */
             background-image: url("https://www.transparenttextures.com/patterns/black-linen.png");
         }
-        #container {
-            width: 1000px;
-            margin: 25px auto 25px auto;
-            padding: 50px 50px 50px 50px;
-            /* background-color: #fffff0; */
-            background-color: #fff;
-            background-image: url("https://www.transparenttextures.com/patterns/cream-paper.png");
-            box-shadow: 0 0 20px #ccc;
-        }
         h1 {
             margin-bottom: 5px;
             font-size: 44px;
@@ -39,15 +30,17 @@
             font-size: 14px;
             line-height: 18px;
         }
-        #footer p {
-            margin-top: 50px;
-            margin-bottom: 0;
-            font-size: 10px;
-            line-height: 14px;
-            color: gray;
+        #container {
+            width: 1000px;
+            margin: 25px auto 25px auto;
+            padding: 50px 50px 50px 50px;
+            /* background-color: #fffff0; */
+            background-color: #fff;
+            background-image: url("https://www.transparenttextures.com/patterns/cream-paper.png");
+            box-shadow: 0 0 20px #ccc;
         }
-        #footer p a {
-            color: gray;
+        #stackedBar rect{
+            margin-left: 0px;
         }
         .overview {
             /* background-color: #f5fffa; */
@@ -62,8 +55,8 @@
 
         /* chart styles */
         svg {
-            width: 100%;
-            height: 100%;
+            /* width: 100%; */
+            /* height: 100%; */
             background-color: none;
          }
           .bar {
@@ -107,13 +100,13 @@
           .summaryLabel {
               margin: 0px;
               border: 1px solid;
-              font-size: 50px;
+              font-size: 30px;
           }
           .initialValue {
-            font-size: 30px;
+            font-size: 20px;
           }
           .adjustedValue {
-              font-size: 30px;
+              font-size: 20px;
               fill:white;
               stroke: #f5fffa;
           }
@@ -138,113 +131,123 @@
             overflow: hidden;
             transition: max-height 0.2s ease-out;
           }
+          #footer p {
+              margin-top: 50px;
+              margin-bottom: 0;
+              font-size: 10px;
+              line-height: 14px;
+              color: gray;
+          }
+          #footer p a {
+              color: gray;
+          }
      </style>
  </head>
 
 <body>
+    <!-- external scripts -->
+    <script type="text/javascript" src="./d3_local.js"></script>
+    <script src="http://d3js.org/d3.v4.min.js"></script>
+    <script src="./slider.js"></script>
+    <!-- <script src="./data.js"></script> -->
 
 <div id="container">
-    <h1>The Perk-o-lator</h1>
+        <h1>Perk-o-lator</h1>
+        <p> Adjust offer letter terms accordingly to determine if a counter-offer is in order:<p>
 
-    <p> Adjust offer letter terms accordingly to determine if a counter-offer is in order:<p>
+        <!-- Summary and stacked bar -->
+        <div id="chartContainer">
+            <h2>Comprehensive Compensation Caculator</h2>
+            <div id="stackedBar" class="overview bar"></div>
+        </div>
 
-    <div id="chartContainer">
-        <h2>Proposed Comprehensive Compensation Package</h2>
-    </div>
+        <!-- Panel Sliders -->
+        <div class="cash row">
+          <div class="panel"></div>
+          <div class="panel"></div>
+          <div class="panel"></div>
+        </div>
+        <div class="equity row">
+          <div class="panel"></div>
+          <div class="panel"></div>
+          <div class="panel"></div>
+        </div>
+        <div class="perks row">
+          <div class="panel"></div>
+          <div class="panel"></div>
+          <div class="panel"></div>
+        </div>
+        <!-- time sliders row -->
+        <!-- <div class="time row">
+          <div class="panel"></div>
+          <div class="panel"></div>
+          <div class="panel"></div>
+        </div> -->
 
-    <div class="overview bar"></div>
-
-    <!-- cash sliders row -->
-    <div class="cash row">
-      <div class="panel"></div>
-      <div class="panel"></div>
-      <div class="panel"></div>
-    </div>
-
-    <!-- equity sliders row -->
-    <div class="equity row">
-      <div class="panel"></div>
-      <div class="panel"></div>
-      <div class="panel"></div>
-    </div>
-
-    <!-- perks sliders row -->
-    <div class="perks row">
-      <div class="panel"></div>
-      <div class="panel"></div>
-      <div class="panel"></div>
-    </div>
-
-    <!-- time sliders row -->
-    <!-- <div class="time row">
-      <div class="panel"></div>
-      <div class="panel"></div>
-      <div class="panel"></div>
-    </div> -->
-
-    <div class="rangeSettings bar ">
-      Set ranges
-      <button class="accordion">Cash ranges</button>
-      <div class="submenu">
-        in cash ranges
-        <div class="range signBonus">
-          Max Signing Bonus: <input type="number" class="signBonus max"></input>
-          Min Signing Bonus: <input type="number" class="signBonus min"></input>
+        <!-- Slider range panel settings -->
+        <div class="rangeSettings bar ">
+          Set ranges
+          <button class="accordion">Cash ranges</button>
+          <div class="submenu">
+            in cash ranges
+            <div class="range signBonus">
+              Max Signing Bonus: <input type="number" class="signBonus max"></input>
+              Min Signing Bonus: <input type="number" class="signBonus min"></input>
+            </div>
+            <div class="range baseSal">
+              Max Base Salary: <input type="number" class="baseSal max"></input>
+              Min Base Salary: <input type="number" class="baseSal min"></input>
+            </div>
+            <div class="range incentiveBonus">
+              Max Incentive Bonus: <input type="number" class="incentiveBonus max"></input>
+              Min Incentive Bonus: <input type="number" class="incentiveBonus min"></input>
+            </div>
+          </div>
+          <button class="accordion">Equity Ranges</button>
+          <div class="submenu">
+            in equity ranges
+            <div class="range signEq">
+              Max Signing Equity: <input type="number" class="signEq max"></input>
+              Min Signing Equity: <input type="number" class="signEq min"></input>
+            </div>
+            <div class="range earnedEq">
+              Max Earned Equity: <input type="number" class="earnedEq max"></input>
+              Min Earned Equity: <input type="number" class="earnedEq min"></input>
+            </div>
+            <div class="range incentiveEq">
+              Max Incentive Equity: <input type="number" class="incentiveEq max"></input>
+              Min Incentive Equity: <input type="number" class="incentiveEq min"></input>
+            </div>
+          </div>
+          <button class="accordion">Perks ranges</button>
+          <div class="submenu">
+            in perks ranges
+            <div class="range stipends">
+              Max Stipends: <input type="number" class="stipends max"></input>
+              Min Stipends: <input type="number" class="stipends min"></input>
+            </div>
+            <div class="range benefits">
+              Max Benefits: <input type="number" class="benefits max"></input>
+              Min Benefits: <input type="number" class="benefits min"></input>
+            </div>
+            <div class="range retirement">
+              Max Retirement Savings: <input type="number" class="retirement max"></input>
+              Min Retirement Savings: <input type="number" class="retirement min"></input>
+            </div>
+          </div>
         </div>
-        <div class="range baseSal">
-          Max Base Salary: <input type="number" class="baseSal max"></input>
-          Min Base Salary: <input type="number" class="baseSal min"></input>
+        <div id="footer">
+            <p><strong>Source:</strong> Initial offer values and negotiable ranges set by hiring manager prior to extending offer to job candidate. See the &rdquo;<a href="https://www.bea.gov/help/glossary/compensation-employees">Bureau of Economic Analysis (BEA)</a>&ldquo; for further guidance on Employee Compensation</p>
         </div>
-        <div class="range incentiveBonus">
-          Max Incentive Bonus: <input type="number" class="incentiveBonus max"></input>
-          Min Incentive Bonus: <input type="number" class="incentiveBonus min"></input>
-        </div>
-      </div>
-      <button class="accordion">Equity Ranges</button>
-      <div class="submenu">
-        in equity ranges
-        <div class="range signEq">
-          Max Signing Equity: <input type="number" class="signEq max"></input>
-          Min Signing Equity: <input type="number" class="signEq min"></input>
-        </div>
-        <div class="range earnedEq">
-          Max Earned Equity: <input type="number" class="earnedEq max"></input>
-          Min Earned Equity: <input type="number" class="earnedEq min"></input>
-        </div>
-        <div class="range incentiveEq">
-          Max Incentive Equity: <input type="number" class="incentiveEq max"></input>
-          Min Incentive Equity: <input type="number" class="incentiveEq min"></input>
-        </div>
-      </div>
-      <button class="accordion">Perks ranges</button>
-      <div class="submenu">
-        in perks ranges
-        <div class="range stipends">
-          Max Stipends: <input type="number" class="stipends max"></input>
-          Min Stipends: <input type="number" class="stipends min"></input>
-        </div>
-        <div class="range benefits">
-          Max Benefits: <input type="number" class="benefits max"></input>
-          Min Benefits: <input type="number" class="benefits min"></input>
-        </div>
-        <div class="range retirement">
-          Max Retirement Savings: <input type="number" class="retirement max"></input>
-          Min Retirement Savings: <input type="number" class="retirement min"></input>
-        </div>
-      </div>
-    </div>
-
-    <div id="footer">
-        <p><strong>Source:</strong> Initial offer values and negotiable ranges set by hiring manager prior to extending offer to job candidate. See the &rdquo;<a href="https://www.bea.gov/help/glossary/compensation-employees">Bureau of Economic Analysis (BEA)</a>&ldquo; for further guidance on Employee Compensation</p>
-    </div>
 </div>
 
-  <script src="http://d3js.org/d3.v4.min.js"></script>
-  <script src="./slider.js"></script>
-  <script src="./data.js"></script>
-  <script>
+<script>
+    var w = 500,
+        h = 100,
+        barMargin = -50;
 
-  let data = [
+    //Original data
+    let data = [
     { name: "Signing Bonus", min: 10, val: 18, max: 20 },
     { name: "Base Salary", min: 80, val: 100, max: 120 },
     { name: "Incentive Bonus", min: 5, val: 7, max: 15 },
@@ -257,88 +260,174 @@
     // { name: "timeRate", min: 20, val: 40, max: 60 },
     // { name: "timeAllocation", min: 0, val: 4, max: 10 },
     // { name: "timeUtilization", min: 30, val: 32, max: 40 }
-  ];
+    ];
 
-    const add = (a, b) => a + b
+    // Stacked bar dummy data
+    var dataset = [
+      { cash: data[0].val, equity: 10, perks: 22 },
+      { cash: 4, equity: 12, perks: 28 },
+      { cash: 2, equity: 19, perks: 32 },
+      // { cash: 7, equity: 23, perks: 37 },
+      // { cash: 23, equity: 17, perks: 43 }
+    ];
 
-    let offerArr = data.map( (d) => d.val ),
-        totalComp = offerArr.reduce(add),
-        newTotal = totalComp;
+    //Set up stack method
+    var stack = d3.stack()
+                .keys([ "cash", "equity", "perks" ])
+                .order(d3.stackOrderDescending);
 
-      d3.selectAll(".panel").append("svg")
-        .each(function(d, i) {
-          // add ticks
-          let scale = d3.scaleLinear()
-            .domain([data[i].min, data[i].max])
-            .range([0, 280])
+    //Data, stacked
+    var series = stack(dataset);
 
-          let axis = d3.axisBottom(scale)
-            .tickValues([data[i].min, data[i].max])
+    //Set up scales
+    var yScale = d3.scaleBand()
+        .domain(d3.range(dataset.length))
+        .range([0, h])
+        .paddingInner(0.05);
 
-          d3.select(this).append("g")
-            .attr("class", "axis")
-            .attr("transform", "translate(37, 100)")
-            .call(axis);
-          // append ids + sliders
-          d3.select(this)
-            .attr("id", i)
-            .call(slider(data));
-          // set initial cx values
-          d3.select(".handle" + i)
-            .attr("cx", (((data[i].val - data[i].min) / (data[i].max - data[i].min))) * 280)
+    var xScale = d3.scaleLinear()
+        .domain([0,
+            d3.max(dataset, function(d) {
+                return d.cash + d.equity + d.perks;
+            })
+        ])
+        .range([0, w]);
 
-          // append panel names
-          d3.select(this).append("g")
-            .attr("class", "textContainer cont" + i)
-            .attr("transform", "translate(25, 20)")
-            .append("text")
-              .text(data[i].name)
-              .attr("class", "panelName name" + i)
-              .attr("text-anchor", "start")
-              .attr("alignment-baseline", "text-before-edge");
-          // display initial data values
-          d3.select(".cont" + i)
-            .append("text")
-              .text("$" + data[i].val + "k")
-              .attr("class", "dataVal val" + i)
-              .attr("x", 300)
-              .attr("text-anchor", "end")
-              .attr("alignment-baseline", "text-before-edge");
+    var colors = d3.scaleOrdinal(d3.schemeCategory20);
+
+    //Create SVG element
+    var stackedBar = d3.select("#stackedBar")
+                .append("svg")
+                .attr("width", w - barMargin)
+                .attr("height", h);
+
+    // Add a group for each row of data
+    var groups = stackedBar.selectAll("g")
+        .data(series)
+        .enter()
+        .append("g")
+        .style("fill", function(d, i) {
+            return colors(i);
+        });
+
+    // Add a rect for each data value
+    var rects = groups.selectAll("rect")
+        .data(function(d) { return d; })
+        .enter()
+        .append("rect")
+        .attr("x", function(d, i) {
+            return xScale(d[0]);
         })
+        .attr("y", function(d, i) {
+            return yScale(i);
+        })
+        .attr("width", function(d) {
+            return xScale(d[1]) - xScale(d[0]);
+        })
+        .attr("height", yScale.bandwidth());
+
+    var labels = groups.selectAll("g")
+            .data(function(d) { return d; });
+
+    labels.enter()
+        .append('text')
+            .attr("x", function(d, i) {
+                return xScale(d[0] + 2);
+            })
+            .attr("y", function(d,i) {
+                return yScale(i) + 24;
+            })
+        .attr('translate', 'transform(0,0)')
+        .attr("font-family", "sans-serif")
+        .attr("font-size", "18px")
+        .attr("fill", "lightgrey")
+        .text(function(d){
+            return d;
+        });
 
 
-    let summaryPanel = d3.select(".overview").append("svg")
 
-    summaryPanel.append("g")
-            .attr("class", "summary")
-        .append("text")
-        .attr("transform", "translate(300, 45)")
-            .attr("class", "summaryLabel")
-            .text("Prospective Offer Value")
-    // append initial offer
-    d3.select(".summary").append("text")
-        .attr("transform", "translate(37.5, 125)")
-        .attr("class", "initialValue")
-        .text("present offer: $" + totalComp + "k")
-    // append adjusted offer
-    d3.select(".summary").append("text")
-        .attr("transform", "translate(670, 125)")
-        .attr("class", "adjustedValue")
-        .text("counter-offer: $" + newTotal + "k")
 
-    // JS code to make accordions open/close
-    let acc = document.getElementsByClassName("accordion")
-    for (let i = 0; i < acc.length; i++) {
-      acc[i].addEventListener("click", function() {
-        this.classList.toggle("active")
-        let panel = this.nextElementSibling
-        if (panel.style.maxHeight) {
-            panel.style.maxHeight = null
-        } else {
-            panel.style.maxHeight = panel.scrollHeight + "px"
+        const add = (a, b) => a + b
+
+        let offerArr = data.map( (d) => d.val ),
+            totalComp = offerArr.reduce(add),
+            newTotal = totalComp;
+
+          d3.selectAll(".panel").append("svg")
+            .each(function(d, i) {
+              // add ticks
+              let scale = d3.scaleLinear()
+                .domain([data[i].min, data[i].max])
+                .range([0, 280])
+
+              let axis = d3.axisBottom(scale)
+                .tickValues([data[i].min, data[i].max])
+
+              d3.select(this).append("g")
+                .attr("class", "axis")
+                .attr("transform", "translate(37, 100)")
+                .call(axis);
+              // append ids + sliders
+              d3.select(this)
+                .attr("id", i)
+                .call(slider(data));
+              // set initial cx values
+              d3.select(".handle" + i)
+                .attr("cx", (((data[i].val - data[i].min) / (data[i].max - data[i].min))) * 280)
+
+              // append panel names
+              d3.select(this).append("g")
+                .attr("class", "textContainer cont" + i)
+                .attr("transform", "translate(25, 20)")
+                .append("text")
+                  .text(data[i].name)
+                  .attr("class", "panelName name" + i)
+                  .attr("text-anchor", "start")
+                  .attr("alignment-baseline", "text-before-edge");
+              // display initial data values
+              d3.select(".cont" + i)
+                .append("text")
+                  .text("$" + data[i].val + "k")
+                  .attr("class", "dataVal val" + i)
+                  .attr("x", 300)
+                  .attr("text-anchor", "end")
+                  .attr("alignment-baseline", "text-before-edge");
+            })
+
+
+        let summaryPanel = d3.select(".overview").append("svg")
+
+        summaryPanel.append("g")
+                .attr("class", "summary")
+            .append("text")
+            .attr("transform", "translate(30, 45)")
+                .attr("class", "summaryLabel")
+                .text("Value of Current Offer")
+        // append initial offer
+        d3.select(".summary").append("text")
+            .attr("transform", "translate(37.5, 75)")
+            .attr("class", "initialValue")
+            .text("offer: $" + totalComp + "k")
+        // append adjusted offer
+        d3.select(".summary").append("text")
+            .attr("transform", "translate(37.5, 95)")
+            .attr("class", "adjustedValue")
+            .text("counter-offer: $" + newTotal + "k")
+
+        // JS code to make accordions open/close
+        let acc = document.getElementsByClassName("accordion")
+        for (let i = 0; i < acc.length; i++) {
+          acc[i].addEventListener("click", function() {
+            this.classList.toggle("active")
+            let panel = this.nextElementSibling
+            if (panel.style.maxHeight) {
+                panel.style.maxHeight = null
+            } else {
+                panel.style.maxHeight = panel.scrollHeight + "px"
+            }
+          })
         }
-      })
-    }
 
 
   </script>
